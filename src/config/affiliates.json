@@ -1,0 +1,17 @@
+{
+  "leonardo": {
+    "name": "Leonardo AI",
+    "url": "MI_LINK_LEONARDO",
+    "color": "purple"
+  },
+  "magnific": {
+    "name": "Magnific Upscaler",
+    "url": "MI_LINK_MAGNIFIC",
+    "color": "red"
+  },
+  "wirestock": {
+    "name": "Sell on Wirestock",
+    "url": "MI_LINK_WIRESTOCK",
+    "color": "blue"
+  }
+}

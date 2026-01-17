@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import data from '../../data.json';
+
+const title = "AI Image Generator for Professionals | Photo Prompts";
+const description = "Generate professional AI images with optimized prompts. Thousands of combinations of professions, styles, and actions to create high-quality photos.";
+
+// Calculate total pages dynamically
+const totalPages = data.profesiones.length * data.estilos.length * data.acciones.length;
+
+// Generate example pages for display
+function createSlug(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function generateTitle(profesion: string, estilo: string, accion: string): string {
+  const profesionCapitalized = profesion.charAt(0).toUpperCase() + profesion.slice(1);
+  const estiloCapitalized = estilo.charAt(0).toUpperCase() + estilo.slice(1);
+  const accionCapitalized = accion.charAt(0).toUpperCase() + accion.slice(1);
+  
+  return `AI Image of ${profesionCapitalized} ${estiloCapitalized} ${accionCapitalized} | Professional Photo Generator`;
+}
+
+// Style-specific technical details
+const styleDetails: Record<string, string> = {
+  'cyberpunk': 'neon lighting, chromatic aberration, futuristic city background, cyan and magenta tones',
+  'photorealistic': 'soft natural lighting, 85mm lens, bokeh, skin texture details, Kodak Portra 400',
+  'realista': 'soft natural lighting, 85mm lens, bokeh, skin texture details, Kodak Portra 400',
+  'office': 'fluorescent office lighting, wide-angle lens, corporate environment, clean white walls',
+  'studio': 'rembrandt lighting, solid grey background, sharp focus, fashion photography',
+  'minimalist': 'soft diffused lighting, negative space, clean composition, muted color palette',
+  'vintage': 'warm film grain, 35mm film aesthetic, sepia tones, vintage color grading',
+  'futuristic': 'holographic elements, LED accent lighting, sci-fi atmosphere, cool color temperature',
+  'corporate': 'professional studio lighting, executive environment, sharp focus, business aesthetic',
+  'artistic': 'dramatic chiaroscuro lighting, creative composition, artistic framing, gallery quality',
+  'professional': 'even studio lighting, professional backdrop, sharp focus, commercial photography',
+  'modern': 'contemporary lighting design, sleek environment, high contrast, modern aesthetic',
+  'classic': 'timeless lighting, elegant composition, traditional framing, classic photography style',
+  'industrial': 'raw industrial lighting, concrete textures, urban decay aesthetic, gritty atmosphere',
+  'natural': 'golden hour lighting, outdoor environment, natural textures, organic composition',
+  'urban': 'street photography lighting, cityscape background, urban textures, contemporary style'
+};
+
+function generatePrompt(profesion: string, estilo: string, accion: string): string {
+  // Get style-specific technical details
+  const technicalDetails = styleDetails[estilo.toLowerCase()] || 'professional lighting, sharp focus, high quality';
+  
+  // Use master template with style details
+  return `Cinematic shot of a ${profesion} ${accion}. ${technicalDetails}. Shot on Sony A7R IV, 8k resolution.`;
+}
+
+// Generate sample pages for homepage
+const samplePages = [];
+for (let i = 0; i < Math.min(9, data.profesiones.length); i++) {
+  const profesion = data.profesiones[i];
+  const estilo = data.estilos[i % data.estilos.length];
+  const accion = data.acciones[i % data.acciones.length];
+  samplePages.push({
+    slug: `${createSlug(profesion)}-${createSlug(estilo)}-${createSlug(accion)}`,
+    title: generateTitle(profesion, estilo, accion),
+    prompt_ejemplo: generatePrompt(profesion, estilo, accion)
+  });
+}
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <main class="max-w-6xl mx-auto px-6 py-16 sm:py-24">
+      <!-- Hero Section -->
+      <div class="text-center mb-16">
+        <h1 class="text-5xl sm:text-6xl font-bold text-gray-900 mb-6">
+          AI Image Generator
+        </h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+          Optimized professional prompts to create high-quality images. 
+          Explore thousands of combinations of professions, styles, and actions.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3 text-sm">
+          <span class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full font-medium">
+            {data.profesiones.length} Professions
+          </span>
+          <span class="px-4 py-2 bg-purple-100 text-purple-800 rounded-full font-medium">
+            {data.estilos.length} Styles
+          </span>
+          <span class="px-4 py-2 bg-green-100 text-green-800 rounded-full font-medium">
+            {data.acciones.length} Actions
+          </span>
+          <span class="px-4 py-2 bg-orange-100 text-orange-800 rounded-full font-medium">
+            {totalPages}+ Prompts
+          </span>
+        </div>
+      </div>
+
+      <!-- Categories Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <!-- Profesiones -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Professions</h2>
+          <div class="flex flex-wrap gap-2">
+            {data.profesiones.slice(0, 10).map((profesion) => (
+              <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm">
+                {profesion}
+              </span>
+            ))}
+            {data.profesiones.length > 10 && (
+              <span class="px-3 py-1 bg-gray-100 text-gray-500 rounded-md text-sm">
+                +{data.profesiones.length - 10} más
+              </span>
+            )}
+          </div>
+        </div>
+
+        <!-- Estilos -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Styles</h2>
+          <div class="flex flex-wrap gap-2">
+            {data.estilos.slice(0, 10).map((estilo) => (
+              <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm">
+                {estilo}
+              </span>
+            ))}
+            {data.estilos.length > 10 && (
+              <span class="px-3 py-1 bg-gray-100 text-gray-500 rounded-md text-sm">
+                +{data.estilos.length - 10} más
+              </span>
+            )}
+          </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Actions</h2>
+          <div class="flex flex-wrap gap-2">
+            {data.acciones.slice(0, 10).map((accion) => (
+              <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm">
+                {accion}
+              </span>
+            ))}
+            {data.acciones.length > 10 && (
+              <span class="px-3 py-1 bg-gray-100 text-gray-500 rounded-md text-sm">
+                +{data.acciones.length - 10} más
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample Pages -->
+      <div class="mb-16">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Example Prompts</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {samplePages.map((page) => (
+            <a 
+              href={`/${page.slug}`}
+              class="block p-6 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all"
+            >
+              <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2">
+                {page.title.split('|')[0].trim()}
+              </h3>
+              <p class="text-sm text-gray-600 line-clamp-2">
+                {page.prompt_ejemplo}
+              </p>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center bg-gray-900 rounded-lg p-12 text-white">
+        <h2 class="text-3xl font-bold mb-4">
+          Explore All Our Prompts
+        </h2>
+        <p class="text-gray-300 mb-6">
+          Access over {totalPages} optimized professional prompts to generate high-quality AI images.
+        </p>
+        <a 
+          href={`/${samplePages[0].slug}`}
+          class="inline-block px-6 py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+        >
+          View Example
+        </a>
+      </div>
+    </main>
+  </div>
+</BaseLayout>

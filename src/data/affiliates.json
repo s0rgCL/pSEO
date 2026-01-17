@@ -1,0 +1,29 @@
+[
+  {
+    "id": "wirestock",
+    "name": "Wirestock",
+    "description": "Sell on Wirestock",
+    "url": "https://wirestock.io?ref=s0rgcl",
+    "badge": "Sell this image",
+    "color": "blue",
+    "priorityCategories": ["negocios", "oficina", "realista", "profesional", "retrato", "fotografía"]
+  },
+  {
+    "id": "getimg",
+    "name": "Generar con GetIMG",
+    "description": "Prueba el modelo FLUX Realista (Gratis)",
+    "url": "https://getimg.ai/?via=s0rgCL",
+    "badge": "Recomendado",
+    "color": "indigo",
+    "priorityCategories": ["cyberpunk", "anime", "artístico", "futurista", "fantasía", "digital", "3d"]
+  },
+  {
+    "id": "magnific",
+    "name": "Magnific Upscaler",
+    "description": "Upscale images to 4K quality",
+    "url": "https://magnific.ai/?via=s0rgcl",
+    "badge": "Upscale to 4K",
+    "color": "red",
+    "priorityCategories": []
+  }
+]
