@@ -1,0 +1,19 @@
+---
+interface Props {
+  href?: string;
+  label?: string;
+}
+
+const { href = '/', label = 'Back to Home' } = Astro.props;
+---
+
+<a 
+  href={href}
+  class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors group mb-6"
+  aria-label={label}
+>
+  <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+  </svg>
+  <span class="font-medium">{label}</span>
+</a>

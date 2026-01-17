@@ -1,60 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BackButton from '../components/BackButton.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import data from '../../data.json';
 import affiliatesData from '../data/affiliates.json';
+import { createSlug, generateTitle, generatePrompt, capitalize } from '../utils/helpers';
 
 export async function getStaticPaths() {
   const { profesiones, estilos, acciones } = data;
-  
-  // Helper function to create URL-safe slugs
-  function createSlug(text: string): string {
-    return text
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Remove accents
-      .replace(/\s+/g, '-') // Replace spaces with hyphens
-      .replace(/[^a-z0-9-]/g, '') // Remove special characters
-      .replace(/-+/g, '-') // Replace multiple hyphens with single
-      .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
-  }
-
-  // Helper function to generate title
-  function generateTitle(profesion: string, estilo: string, accion: string): string {
-    const profesionCapitalized = profesion.charAt(0).toUpperCase() + profesion.slice(1);
-    const estiloCapitalized = estilo.charAt(0).toUpperCase() + estilo.slice(1);
-    const accionCapitalized = accion.charAt(0).toUpperCase() + accion.slice(1);
-    
-    return `AI Image of ${profesionCapitalized} ${estiloCapitalized} ${accionCapitalized} | Professional Photo Generator`;
-  }
-
-  // Style-specific technical details
-  const styleDetails: Record<string, string> = {
-    'cyberpunk': 'neon lighting, chromatic aberration, futuristic city background, cyan and magenta tones',
-    'photorealistic': 'soft natural lighting, 85mm lens, bokeh, skin texture details, Kodak Portra 400',
-    'realista': 'soft natural lighting, 85mm lens, bokeh, skin texture details, Kodak Portra 400',
-    'office': 'fluorescent office lighting, wide-angle lens, corporate environment, clean white walls',
-    'studio': 'rembrandt lighting, solid grey background, sharp focus, fashion photography',
-    'minimalist': 'soft diffused lighting, negative space, clean composition, muted color palette',
-    'vintage': 'warm film grain, 35mm film aesthetic, sepia tones, vintage color grading',
-    'futuristic': 'holographic elements, LED accent lighting, sci-fi atmosphere, cool color temperature',
-    'corporate': 'professional studio lighting, executive environment, sharp focus, business aesthetic',
-    'artistic': 'dramatic chiaroscuro lighting, creative composition, artistic framing, gallery quality',
-    'professional': 'even studio lighting, professional backdrop, sharp focus, commercial photography',
-    'modern': 'contemporary lighting design, sleek environment, high contrast, modern aesthetic',
-    'classic': 'timeless lighting, elegant composition, traditional framing, classic photography style',
-    'industrial': 'raw industrial lighting, concrete textures, urban decay aesthetic, gritty atmosphere',
-    'natural': 'golden hour lighting, outdoor environment, natural textures, organic composition',
-    'urban': 'street photography lighting, cityscape background, urban textures, contemporary style'
-  };
-
-  // Helper function to generate prompt using master template
-  function generatePrompt(profesion: string, estilo: string, accion: string): string {
-    // Get style-specific technical details
-    const technicalDetails = styleDetails[estilo.toLowerCase()] || 'professional lighting, sharp focus, high quality';
-    
-    // Use master template with style details
-    return `Cinematic shot of a ${profesion} ${accion}. ${technicalDetails}. Shot on Sony A7R IV, 8k resolution.`;
-  }
   
   // Generate all possible combinations using flatMap
   const paths = profesiones.flatMap((profesion) =>
@@ -94,26 +47,13 @@ const { profesion, estilo, accion, title, prompt } = Astro.props;
 // Generate description from props
 const description = `Generate professional AI images of ${profesion} ${estilo} ${accion}. Optimized prompt: ${prompt}. Create high-quality photos for professional use.`;
 
-// Helper function to create URL-safe slugs (same as in getStaticPaths)
-function createSlug(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '') // Remove accents
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/[^a-z0-9-]/g, '') // Remove special characters
-    .replace(/-+/g, '-') // Replace multiple hyphens with single
-    .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
-}
-
-// Helper function to generate title (same as in getStaticPaths)
-function generateTitle(profesion: string, estilo: string, accion: string): string {
-  const profesionCapitalized = profesion.charAt(0).toUpperCase() + profesion.slice(1);
-  const estiloCapitalized = estilo.charAt(0).toUpperCase() + estilo.slice(1);
-  const accionCapitalized = accion.charAt(0).toUpperCase() + accion.slice(1);
-  
-  return `AI Image of ${profesionCapitalized} ${estiloCapitalized} ${accionCapitalized} | Professional Photo Generator`;
-}
+// Generate breadcrumbs for navigation
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: capitalize(profesion), href: '#' },
+  { label: capitalize(estilo), href: '#' },
+  { label: capitalize(accion), href: '#' }
+];
 
 // Generate related prompts (6 random combinations excluding current)
 function getRelatedPrompts(currentProfesion: string, currentEstilo: string, currentAccion: string) {
@@ -147,6 +87,27 @@ function getRelatedPrompts(currentProfesion: string, currentEstilo: string, curr
 }
 
 const relatedPrompts = getRelatedPrompts(profesion, estilo, accion);
+
+// Generate structured data for SEO
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "author": {
+    "@type": "Organization",
+    "name": "Smart Prompt Guide"
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbs.map((item, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.label,
+      "item": item.href === '#' ? Astro.url.href : new URL(item.href, Astro.url.origin).href
+    }))
+  }
+};
 
 // Map Spanish priority categories to English style/action/profession values
 const categoryMap: Record<string, string[]> = {
@@ -258,15 +219,22 @@ function getIconColor(color: string) {
 ---
 
 <BaseLayout title={title} description={description}>
+  {/* Structured Data for SEO */}
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  
   <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-    <main class="max-w-4xl mx-auto px-6 py-16 sm:py-24">
+    <main class="max-w-4xl mx-auto px-6 pt-8 pb-16 sm:pt-12 sm:pb-24">
+      <!-- Navigation -->
+      <BackButton />
+      <Breadcrumbs items={breadcrumbs} />
+
       <!-- Header -->
       <div class="mb-12">
         <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 leading-tight">
           {title}
         </h1>
         <p class="text-lg text-gray-600">
-          Professional AI image generator
+          Smart Prompt Guide - Professional AI image generator
         </p>
       </div>
 
@@ -488,7 +456,7 @@ function getIconColor(color: string) {
       <!-- Footer -->
       <footer class="mt-16 pt-8 border-t border-gray-200">
         <p class="text-sm text-gray-500 text-center">
-          Professional AI image prompt generator
+          Smart Prompt Guide - Professional AI image prompt generator
         </p>
       </footer>
     </main>

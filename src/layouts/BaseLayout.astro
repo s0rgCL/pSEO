@@ -13,7 +13,7 @@ const canonicalUrl = Astro.url.href;
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,6 +31,10 @@ const canonicalUrl = Astro.url.href;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description || title} />
+    
+    <!-- Additional SEO -->
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Smart Prompt Guide" />
   </head>
   <body class="bg-white antialiased">
     <slot />
