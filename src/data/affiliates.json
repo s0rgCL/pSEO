@@ -6,16 +6,16 @@
     "url": "https://wirestock.io?ref=s0rgcl",
     "badge": "Sell this image",
     "color": "blue",
-    "priorityCategories": ["negocios", "oficina", "realista", "profesional", "retrato", "fotografía"]
+    "priorityCategories": ["business", "office", "realistic", "professional", "portrait", "photography"]
   },
   {
     "id": "getimg",
-    "name": "Generar con GetIMG",
-    "description": "Prueba el modelo FLUX Realista (Gratis)",
+    "name": "Generate with GetIMG",
+    "description": "Try the FLUX Realistic model (Free)",
     "url": "https://getimg.ai/?via=s0rgCL",
-    "badge": "Recomendado",
+    "badge": "Recommended",
     "color": "indigo",
-    "priorityCategories": ["cyberpunk", "anime", "artístico", "futurista", "fantasía", "digital", "3d"]
+    "priorityCategories": ["cyberpunk", "anime", "artistic", "futuristic", "fantasy", "digital", "3d"]
   },
   {
     "id": "magnific",

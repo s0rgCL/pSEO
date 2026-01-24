@@ -109,21 +109,19 @@ const structuredData = {
   }
 };
 
-// Map Spanish priority categories to English style/action/profession values
+// Map priority categories to English style/action/profession values
 const categoryMap: Record<string, string[]> = {
-  'negocios': ['business', 'corporate', 'executive', 'entrepreneur', 'executiva', 'ejecutivo', 'empresario'],
-  'oficina': ['office', 'oficina'],
-  'realista': ['photorealistic', 'realistic', 'realista'],
-  'profesional': ['professional', 'profesional'],
-  'retrato': ['portrait', 'portraits', 'retrato', 'photographer', 'fotógrafa', 'fotógrafo'],
-  'fotografía': ['photography', 'photographer', 'fotógrafa', 'fotógrafo', 'photographic'],
+  'business': ['business', 'corporate', 'executive', 'entrepreneur'],
+  'office': ['office'],
+  'realistic': ['photorealistic', 'realistic'],
+  'professional': ['professional'],
+  'portrait': ['portrait', 'portraits', 'photographer'],
+  'photography': ['photography', 'photographer', 'photographic'],
   'cyberpunk': ['cyberpunk'],
-  'fantasia': ['fantasy', 'artistic', 'creative', 'artístico', 'artistic', 'fantasía'],
-  'fantasía': ['fantasy', 'artistic', 'creative', 'artístico', 'artistic', 'fantasia'],
-  'anime': ['anime', 'artistic', 'artístico'],
-  'arte': ['artistic', 'art', 'creative', 'studio', 'artístico', 'estudio'],
-  'artístico': ['artistic', 'art', 'creative', 'studio', 'arte', 'estudio'],
-  'futurista': ['futuristic', 'futurista', 'futuro'],
+  'fantasy': ['fantasy', 'artistic', 'creative'],
+  'anime': ['anime', 'artistic'],
+  'artistic': ['artistic', 'art', 'creative', 'studio'],
+  'futuristic': ['futuristic'],
   'digital': ['digital', 'digitally'],
   '3d': ['3d', '3-d', 'three-dimensional']
 };

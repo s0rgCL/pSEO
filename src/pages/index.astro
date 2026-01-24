@@ -17,7 +17,7 @@ data.profesiones.forEach((profesion) => {
       allPages.push({
         slug: `${createSlug(profesion)}-${createSlug(estilo)}-${createSlug(accion)}`,
         title: generateTitle(profesion, estilo, accion),
-        prompt_ejemplo: generatePrompt(profesion, estilo, accion),
+        prompt: generatePrompt(profesion, estilo, accion),
         profesion,
         estilo,
         accion
@@ -105,13 +105,13 @@ const samplePages = allPages.slice(0, 9);
               data-estilo={page.estilo.toLowerCase()}
               data-accion={page.accion.toLowerCase()}
               data-title={page.title.toLowerCase()}
-              data-prompt={page.prompt_ejemplo.toLowerCase()}
+              data-prompt={page.prompt.toLowerCase()}
             >
               <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
                 {page.title.split('|')[0].trim()}
               </h3>
               <p class="text-sm text-gray-600 line-clamp-2 mb-3">
-                {page.prompt_ejemplo}
+                {page.prompt}
               </p>
               <div class="flex flex-wrap gap-2">
                 <span class="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-md capitalize font-medium">
